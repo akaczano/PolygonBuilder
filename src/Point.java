@@ -24,9 +24,4 @@ public class Point {
         return points;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File f = new File("/Users/shashankkumar/Desktop/longs_and_lats.csv");
-        ArrayList<Point> longsAndLats = readCoordinates(f);
-
-    }
 }
