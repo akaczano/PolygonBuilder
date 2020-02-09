@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class GraphicsPanel extends JPanel implements MouseListener, MouseMotionListener {
@@ -17,12 +20,17 @@ public class GraphicsPanel extends JPanel implements MouseListener, MouseMotionL
     private ArrayList<Integer> xs;
     private ArrayList<Integer> ys;
 
-    public void addPoints(ArrayList<Point> points) {
-        int screen_width = Window.WIDTH - 2 * MARGIN_X;
-        int screen_height = Window.HEIGHT - 2 * MARGIN_Y;
+    private int addedPoints = 0;
 
-        double long_per_x = screen_width / (MAX_LONG - MIN_LONG);
-        double lat_per_y = screen_height /  (MAX_LAT - MIN_LAT);
+    int screen_width = Window.WIDTH - 2 * MARGIN_X;
+    int screen_height = Window.HEIGHT - 2 * MARGIN_Y;
+
+    double long_per_x = screen_width / (MAX_LONG - MIN_LONG);
+    double lat_per_y = screen_height /  (MAX_LAT - MIN_LAT);
+
+    public void addPoints(ArrayList<Point> points) {
+
+        addedPoints += points.size();
 
         for (Point p : points) {
 
@@ -86,4 +94,23 @@ public class GraphicsPanel extends JPanel implements MouseListener, MouseMotionL
     public void mouseMoved(MouseEvent mouseEvent) {
 
     }
+
+    public void saveToCSV(String fileName) {
+        File file = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(file);
+            pw.println("LONG,LAT");
+            for (int i = addedPoints; i < xs.size(); ++i) {
+                double longitude = (xs.get(i) - MARGIN_X) / long_per_x + MIN_LONG;
+                double latitude = ((screen_height-ys.get(i)) - MARGIN_Y) / lat_per_y + MIN_LAT;
+                pw.println(String.format("%f,%f", longitude, latitude));
+            }
+            pw.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
