@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Window extends JFrame {
 
@@ -18,6 +20,12 @@ public class Window extends JFrame {
     private void initComponents() {
         GraphicsPanel panel = new GraphicsPanel();
         panel.setBounds(0, 0, WIDTH, HEIGHT);
+        try {
+            panel.addPoints(Point.readCoordinates(new File("map.csv")));
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         this.add(panel);
     }
 

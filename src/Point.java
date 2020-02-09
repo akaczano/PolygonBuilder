@@ -11,6 +11,22 @@ public class Point {
         this.latitude = latitude;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public static ArrayList<Point> readCoordinates(File f) throws FileNotFoundException {
         ArrayList<Point> points = new ArrayList<>();
         Scanner sc = new Scanner(f);
